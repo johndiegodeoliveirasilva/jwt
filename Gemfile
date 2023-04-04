@@ -12,6 +12,15 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
+# A pure ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
+gem 'jwt', '~> 1.5', '>= 1.5.4'
+
+# JWT authentication for devise with configurable token revocation strategies
+gem 'devise', '~> 4.9', '>= 4.9.1'
+
+gem 'rubocop'
+gem 'rubocop-rails'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
@@ -39,6 +48,10 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  # Loads environment variables from `.env`.
+  gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'
+  gem 'byebug', '~> 11.1', '>= 11.1.3'
+  gem 'pry-remote', '~> 0.1.8'
 end
 
 group :development do
