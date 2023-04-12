@@ -52,6 +52,7 @@ group :development, :test do
   gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'
   gem 'byebug', '~> 11.1', '>= 11.1.3'
   gem 'pry-remote', '~> 0.1.8'
+  gem 'rspec-rails', '~> 6.0.0'
 end
 
 group :development do
@@ -61,3 +62,5 @@ end
 
 
 gem "bcrypt", "~> 3.1"
+
+gem "faker", "~> 3.1"
