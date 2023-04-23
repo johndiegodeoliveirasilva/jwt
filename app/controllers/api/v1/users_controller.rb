@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[show delete update]
+  before_action :set_user, only: %i[show destroy update]
 
   def show
     render json: @user
@@ -25,9 +25,9 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def delete
-    @user.delete
-    head 204
+  def destroy
+    @user.destroy
+    head :no_content
   end
 
   private
