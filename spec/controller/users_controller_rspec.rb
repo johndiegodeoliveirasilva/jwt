@@ -77,15 +77,30 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
     
     context 'should not update user' do
-      it 'dont updates the user' do
+      before do
         patch :update, params: { id: user, user: new_invalid_attributes }
+      end
+      
+      it 'dont updates the user' do
         user.reload
         expect(user.email).not_to eq(new_invalid_attributes.fetch(:email))
       end
     
       it 'return unprocessable_entity on update user' do
-        patch :update, params: { id: user, user: new_invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
+  describe 'show #GET' do
+    let(:user) { create(:user) }
+
+    context 'should show user' do
+      it 'return user json' do
+        get :show, params: { id: user }
+
+        json_response = JSON.parse(self.response.body, symbolize_names: true)
+        expect(user.email).to eq(json_response.dig(:email))
       end
     end
   end
