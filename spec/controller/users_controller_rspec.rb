@@ -53,4 +53,41 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
   end
+
+  describe 'update #PATH' do
+    let(:new_attributes) do
+      { email: Faker::Internet.email }
+    end
+
+    let(:new_invalid_attributes) do
+      { email: 'testegmail.com' }
+    end
+
+    context 'should update user' do
+      it 'updates the user' do
+        patch :update, params: { id: user, user: new_attributes }
+        user.reload
+        expect(user.email).to eq(new_attributes.fetch(:email))
+      end
+    
+      it 'return success on update user' do
+        patch :update, params: { id: user, user: new_attributes }
+        expect(response).to have_http_status(:success)
+      end
+    end
+    
+    context 'should not update user' do
+      it 'dont updates the user' do
+        patch :update, params: { id: user, user: new_invalid_attributes }
+        user.reload
+        expect(user.email).not_to eq(new_invalid_attributes.fetch(:email))
+      end
+    
+      it 'return unprocessable_entity on update user' do
+        patch :update, params: { id: user, user: new_invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end
+

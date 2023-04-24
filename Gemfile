@@ -57,9 +57,9 @@ end
 
 group :test do
   gem 'database_cleaner-active_record'
-  gem "factory_bot_rails", "~> 6.2"
-  gem 'rspec-rails', '~> 6.0.0'
+  gem 'factory_bot_rails', '~> 6.2'
   gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 6.0.0'
 end
 
 group :development do
