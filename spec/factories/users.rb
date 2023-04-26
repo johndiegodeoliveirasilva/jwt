@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :user do
     email { Faker::Internet.email }
-    password { Faker::Alphanumeric.alphanumeric(number: 10) }
+    password_digest { BCrypt::Password.create('g00d_pa$$') }
   end
 end
