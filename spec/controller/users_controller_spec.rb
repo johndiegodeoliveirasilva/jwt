@@ -28,13 +28,23 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { user }
+    before do
+      user
+    end
 
     it 'destroys the user' do
-      expect { delete :destroy, params: { id: user } }
-        .to change { User.count }.by(-1)
+      expect do
+        request.headers['Authorization'] = JsonWebToken.encode(user_id: user.id)
+        delete :destroy, params: { id: user }
+      end.to change { User.count }.by(-1)
       expect(response).to have_http_status(:no_content)
     end
+
+    it 'should forbid destroy user' do
+      delete :destroy, params: { id: user }
+      expect(response).to have_http_status(:forbidden)
+    end
+    
   end
 
   describe 'PATCH #update' do
@@ -42,7 +52,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:new_invalid_attributes) { { email: 'testegmail.com' } }
 
     context 'with valid attributes' do
-      before { patch :update, params: { id: user, user: new_attributes } }
+      before do
+        request.headers['Authorization'] = JsonWebToken.encode(user_id: user.id)
+        patch :update, params: { id: user, user: new_attributes }
+      end
 
       it 'updates the user' do
         user.reload
@@ -50,12 +63,16 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
 
       it 'returns success' do
+        user.reload
         expect(response).to have_http_status(:success)
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: user, user: new_invalid_attributes } }
+      before do
+        request.headers['Authorization'] = JsonWebToken.encode(user_id: user.id)
+        patch :update, params: { id: user, user: new_invalid_attributes }
+      end
 
       it 'does not update the user' do
         user.reload
